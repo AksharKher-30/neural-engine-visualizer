@@ -1,0 +1,8 @@
+torch>=2.1.0
+torchvision>=0.16.0
+coremltools>=7.2
+numpy>=1.24.0
+Pillow>=10.0.0
+opencv-python>=4.8.0
+pyzmq>=25.1.0
+pytest>=7.4.0

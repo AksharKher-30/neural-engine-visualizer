@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Models — too large for git
+models/pretrained/
+
+# Mac
+.DS_Store
+
+# Outputs — videos etc
+outputs/*
+!outputs/.gitkeep
+
+# Build
+engine/build/
