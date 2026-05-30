@@ -71,9 +71,15 @@ def convert(traced, layer_indices, compute_units=ct.ComputeUnit.ALL):
     scale = 1.0 / (0.226 * 255.0)
     bias = [-0.485 / 0.226, -0.456 / 0.226, -0.406 / 0.226]
 
-    outputs = [ct.TensorType(name="logits")]
+    # Force float32 on all outputs — prevents float16 from ANE
+    import numpy as np
+    outputs = [ct.TensorType(name="logits", dtype=np.float32)]
     for idx in sorted(layer_indices):
-        outputs.append(ct.TensorType(name=f"activation_layer_{idx}"))
+        outputs.append(ct.TensorType(
+            name=f"activation_layer_{idx}",
+            dtype=np.float32
+        ))
+
 
     return ct.convert(
         traced,
