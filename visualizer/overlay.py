@@ -138,13 +138,13 @@ class ZMQReceiver(threading.Thread):
 # ── Saliency computation ──────────────────────────────────
 
 def compute_saliency(arr: np.ndarray) -> np.ndarray:
-    """(C,H,W) activation → normalized (H,W) saliency map."""
-    s = arr.mean(axis=0)                          # mean across channels
-    s = np.maximum(s, 0)                          # ReLU — positive only
+    """(C,H,W) → normalized (H,W) saliency. Uses abs mean — works at all depths."""
+    # abs mean: works for both shallow (signed) and deep (sparse) layers
+    s = np.abs(arr).mean(axis=0)          # ← was arr.mean + ReLU
     lo, hi = s.min(), s.max()
     if hi - lo < 1e-8:
         return np.zeros_like(s)
-    return (s - lo) / (hi - lo)                   # normalize [0, 1]
+    return (s - lo) / (hi - lo)                  # normalize [0, 1]
 
 
 def saliency_to_heatmap(saliency: np.ndarray,
