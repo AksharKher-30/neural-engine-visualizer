@@ -2,7 +2,7 @@
 
 Real-time neural network visualization running entirely on Apple Neural Engine. MobileNetV2 and EfficientNet-B0 instrumented to expose intermediate layer activations, streamed from a C++ inference engine to a live OpenCV dashboard at ~4ms per frame.
 
-> ![demo](docs/demo.gif)
+> ![demo](outputs/demo.gif)
 
 ---
 
