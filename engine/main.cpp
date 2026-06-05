@@ -54,8 +54,13 @@ int main(int argc, char** argv) {
     // ZMQ PUSH socket
     zmq::context_t ctx(1);
     zmq::socket_t  pub(ctx, ZMQ_PUSH);
-    pub.bind("tcp://*:5555");
-    std::cout << "[Engine] ZMQ bound on tcp://*:5555\n";
+    int zmq_port = 5555;
+    if (argc > 2) {
+        try { zmq_port = std::stoi(argv[2]); }
+        catch (...) { zmq_port = 5555; }
+    }
+    pub.bind("tcp://*:" + std::to_string(zmq_port));
+    std::cout << "[Engine] ZMQ bound on tcp://*:" << zmq_port << "\n";
 
     // Webcam
     cv::VideoCapture cap(0);

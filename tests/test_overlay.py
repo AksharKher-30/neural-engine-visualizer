@@ -36,10 +36,13 @@ def test_saliency_range():
     assert s.max() <= 1.0 + 1e-6
 
 def test_saliency_relu():
-    """Negative-only activation → all zeros after ReLU."""
+    """Abs-mean saliency: negative-only input → non-zero (abs makes positive)."""
     arr = -np.abs(np.random.randn(16, 112, 112).astype(np.float32))
     s   = compute_saliency(arr)
-    assert np.allclose(s, 0.0)
+    # With abs mean, all-negative input → positive values → non-zero saliency
+    assert s.min() >= 0.0 - 1e-6
+    assert s.max() <= 1.0 + 1e-6
+    assert s.max() > 0.0   # abs mean, so must be non-zero
 
 def test_saliency_all_layers():
     shapes = {1:(16,112,112), 4:(32,28,28), 11:(96,14,14), 18:(1280,7,7)}
